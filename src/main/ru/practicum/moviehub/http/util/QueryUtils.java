@@ -1,7 +1,6 @@
 package ru.practicum.moviehub.http.util;
 
 import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
