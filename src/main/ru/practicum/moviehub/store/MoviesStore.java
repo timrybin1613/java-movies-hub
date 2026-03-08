@@ -36,16 +36,16 @@ public class MoviesStore {
         return movies.remove(id) != null;
     }
 
-    public List<Movie> getMoviesByYear(int year) {
-        return movies.values().stream()
-                .filter(movie -> movie.getReleaseDate().getYear() == year).collect(Collectors.toList());
-    }
-
     public Map<Integer, Movie> getMoviesByYears(List<Integer> years) {
         Set<Integer> setYears = new HashSet<>(years);
 
         return movies.entrySet().stream()
                 .filter(e -> setYears.contains(e.getValue().getReleaseDate().getYear()))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    }
+
+    public void clear() {
+        movies.clear();
+        nextId = 1;
     }
 }

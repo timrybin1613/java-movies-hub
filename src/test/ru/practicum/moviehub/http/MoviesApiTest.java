@@ -25,8 +25,8 @@ public class MoviesApiTest {
     private static HttpClient client;
     private static Gson gson;
 
-    @BeforeEach
-    void beforeEach() {
+    @BeforeAll
+    static void beforeAll() {
         gson = GsonFactory.get();
 
         server = new MoviesServer(new MoviesStore(), 8080);
@@ -39,6 +39,11 @@ public class MoviesApiTest {
 
     @AfterEach
     void afterEach() {
+        server.getStore().clear();
+    }
+
+    @AfterAll
+    static void afterAll() {
         server.stop();
     }
 

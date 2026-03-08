@@ -3,6 +3,7 @@ package ru.practicum.moviehub.http.util;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class QueryUtils {
 
@@ -12,21 +13,13 @@ public class QueryUtils {
             return Collections.emptyMap();
         }
 
-        Map<String, List<String>> result = new HashMap<>();
-
-        String[] pairs = query.split("&");
-
-        for (String pair : pairs) {
-
-            String[] keyValue = pair.split("=", 2);
-
-            String key = safeDecode(keyValue[0]);
-            String value = safeDecode(keyValue.length > 1 ? keyValue[1] : "");
-
-            result.computeIfAbsent(key, k -> new ArrayList<>()).add(value);
-        }
-
-        return result;
+        return Arrays.stream(query.split("&"))
+                .map(pair -> pair.split("=", 2))
+                .collect(Collectors.groupingBy(
+                        kv -> safeDecode(kv[0]),
+                        Collectors.mapping(
+                                kv -> safeDecode(kv.length > 1 ? kv[1] : ""),
+                                Collectors.toList())));
     }
 
     private static String safeDecode(String str) {
